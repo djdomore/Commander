@@ -1,0 +1,41 @@
+import streamlit as st
+
+# Initial wallet balance
+wallet_balance_cdc = 1000
+
+# Streamlit app
+def main():
+    st.title("Commander Domore Coin (CDC) Wallet")
+
+    # Display current CDC balance
+    st.sidebar.header("Wallet Balance")
+    st.sidebar.subheader(f"{wallet_balance_cdc} CDC")
+
+    # Main content
+    st.header("CDC Wallet Simulation")
+
+    # Transaction options
+    transaction_option = st.selectbox("Choose Transaction", ["Deposit", "Withdraw"])
+
+    # Deposit
+    if transaction_option == "Deposit":
+        deposit_amount = st.number_input("Enter Deposit Amount", min_value=0)
+        if st.button("Deposit"):
+            wallet_balance_cdc += deposit_amount
+            st.success(f"{deposit_amount} CDC deposited successfully!")
+
+    # Withdraw
+    elif transaction_option == "Withdraw":
+        withdraw_amount = st.number_input("Enter Withdrawal Amount", min_value=0)
+        if st.button("Withdraw"):
+            if withdraw_amount <= wallet_balance_cdc:
+                wallet_balance_cdc -= withdraw_amount
+                st.success(f"{withdraw_amount} CDC withdrawn successfully!")
+            else:
+                st.error("Insufficient funds in the wallet!")
+
+    # Display updated wallet balance
+    st.sidebar.subheader(f"Updated Balance: {wallet_balance_cdc} CDC")
+
+if __name__ == "__main__":
+    main()
